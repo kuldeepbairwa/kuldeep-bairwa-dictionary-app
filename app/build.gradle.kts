@@ -25,13 +25,22 @@ android {
         }
     }
 
+    buildFeatures{
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            buildConfigField("String", "BASE_URL", "\"https://api.dictionaryapi.dev/api/v2/\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://api.dictionaryapi.dev/api/v2/\"")
         }
     }
     compileOptions {

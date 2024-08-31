@@ -11,10 +11,12 @@ data class MeaningDTO(
     val antonyms: List<String>
 )
 
-
 fun MeaningDTO.toMeaning(): Meaning {
     return Meaning(
         partOfSpeech = partOfSpeech,
+        synonyms = synonyms,
+        antonyms = antonyms,
         definitions = definitions.map { it.toDefinition() }
     )
+
 }

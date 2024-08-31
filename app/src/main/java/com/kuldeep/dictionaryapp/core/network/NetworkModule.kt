@@ -1,5 +1,6 @@
 package com.kuldeep.dictionaryapp.core.network
 
+import com.kuldeep.dictionaryapp.BuildConfig
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.remote.DictionaryApiService
 import dagger.Module
 import dagger.Provides
@@ -21,7 +22,7 @@ object NetworkModule {
     @Provides
     fun providesRetrofitBuilder(): Retrofit.Builder {
         return Retrofit.Builder()
-            .baseUrl("AppConstants.BASE_URL")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(
                 Json.asConverterFactory(
                     "application/json; charset=UTF8".toMediaType()
