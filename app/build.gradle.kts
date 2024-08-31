@@ -65,15 +65,15 @@ dependencies {
     implementation(libs.androidx.material3)
 
 
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.hilt.compose.navigation)
 
-//    hilt dependencies
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-//  coroutines
     implementation(libs.kotlinx.coroutines.android)
 
-//    room database
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
