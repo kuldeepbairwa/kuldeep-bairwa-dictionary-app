@@ -23,9 +23,13 @@ class MainActivity : ComponentActivity() {
             DictionaryAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
-                    Surface(modifier = Modifier.padding(innerPadding), color = MaterialTheme.colorScheme.surface) {
+                    Surface(
+                        modifier = Modifier.padding(innerPadding),
+                        color = MaterialTheme.colorScheme.surface
+                    ) {
+                        Text(text = "Dictionary App")
                     }
-                    Text(text = "Dictionary App")
+
                 }
             }
         }
