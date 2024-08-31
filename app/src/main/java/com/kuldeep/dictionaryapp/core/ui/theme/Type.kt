@@ -1,4 +1,4 @@
-package com.kuldeep.dictionaryapp.ui.theme
+package com.kuldeep.dictionaryapp.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

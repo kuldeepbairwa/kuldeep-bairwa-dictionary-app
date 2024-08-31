@@ -1,4 +1,4 @@
-package com.kuldeep.dictionaryapp.ui.theme
+package com.kuldeep.dictionaryapp.core.ui.theme
 
 import android.app.Activity
 import android.os.Build

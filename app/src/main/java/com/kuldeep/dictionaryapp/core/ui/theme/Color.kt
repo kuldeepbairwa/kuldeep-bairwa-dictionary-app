@@ -1,4 +1,4 @@
-package com.kuldeep.dictionaryapp.ui.theme
+package com.kuldeep.dictionaryapp.core.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF4C662B)
