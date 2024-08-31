@@ -53,11 +53,11 @@ androidx-hilt-compose-navigation = { group = "androidx.hilt", name = "hilt-navig
 
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 
-skydoves-sandwich = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "skydoves-sandwich"}
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json"}
-retrofit-kotlinx-serialization = {group = "com.squareup.retrofit2", name= "converter-kotlinx-serialization", version.ref = "retrofit"}
-retrofit = { group = "com.squareup.retrofit2", name= "retrofit", version.ref = "retrofit"}
-okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okHttp3"}
+skydoves-sandwich = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "skydoves-sandwich" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+retrofit-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okHttp3" }
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okHttp3" }
 
 

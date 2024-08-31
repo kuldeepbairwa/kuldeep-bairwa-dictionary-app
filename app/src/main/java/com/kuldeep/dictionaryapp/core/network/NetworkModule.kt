@@ -31,7 +31,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providesHttpLoggingInterceptor():OkHttpClient{
+    fun providesHttpLoggingInterceptor(): OkHttpClient {
 
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
@@ -53,7 +53,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providesDictionaryApiService(retrofit: Retrofit):DictionaryApiService{
+    fun providesDictionaryApiService(retrofit: Retrofit): DictionaryApiService {
         return retrofit.create(DictionaryApiService::class.java)
     }
 
