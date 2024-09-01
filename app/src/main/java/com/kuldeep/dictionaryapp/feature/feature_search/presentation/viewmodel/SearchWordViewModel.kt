@@ -18,13 +18,13 @@ class SearchWordViewModel @Inject constructor() :ViewModel() {
 
         when(event){
             SearchEvents.Idle -> {
-
+                _uiState.value = SearchUiState.Idle
             }
             is SearchEvents.SearchWord -> {
-
+                _uiState.value = SearchUiState.SearchWord(event.word)
             }
             is SearchEvents.ShowErrorMessage -> {
-
+                _uiState.value = SearchUiState.Error(event.message)
             }
         }
     }

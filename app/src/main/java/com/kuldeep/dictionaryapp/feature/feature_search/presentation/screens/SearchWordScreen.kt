@@ -1,11 +1,14 @@
 package com.kuldeep.dictionaryapp.feature.feature_search.presentation.screens
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -42,20 +45,38 @@ fun SearchWordScreen(viewModel: SearchWordViewModel, onWordSearch: (String) -> U
             value = word,
             onValueChange = {
                 word = it.trim()
-                            },
+            },
             label = { Text("Enter Word") }
         )
 
         Spacer(modifier = Modifier.size(20.dp))
 
         Button(onClick = {
-            if(word.isNotEmpty()){
-                onWordSearch(word)
-            }else{
-                viewModel.onEvent(SearchEvents.ShowErrorMessage("Please enter a word"))
+            if (word.isNotEmpty()) {
+                viewModel.onEvent(SearchEvents.SearchWord(word))
+            } else {
+                viewModel.onEvent(SearchEvents.ShowErrorMessage("Please enter a word!"))
             }
         }) {
             Text("Search")
+        }
+
+
+        when (val state = uiState) {
+            is SearchUiState.Error -> {
+                Text(
+                    text = state.message,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .padding(12.dp)
+                )
+            }
+
+            is SearchUiState.SearchWord -> {
+                onWordSearch(state.word)
+            }
+
+            SearchUiState.Idle -> Unit
         }
 
     }
