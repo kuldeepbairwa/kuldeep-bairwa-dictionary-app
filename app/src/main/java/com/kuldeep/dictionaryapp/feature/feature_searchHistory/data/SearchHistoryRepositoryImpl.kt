@@ -15,4 +15,7 @@ class SearchHistoryRepositoryImpl @Inject constructor(
     override fun getSavedWords(): Flow<List<Word>> {
         return wordDAO.getAllWords().map { words -> words.map { it.toWord() } } }
 
+    override suspend fun deleteWord(word: String) {
+        wordDAO.deleteWord(word)
+    }
 }

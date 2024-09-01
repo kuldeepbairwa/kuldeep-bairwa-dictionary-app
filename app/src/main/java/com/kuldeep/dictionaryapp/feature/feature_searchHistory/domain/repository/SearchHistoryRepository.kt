@@ -7,4 +7,6 @@ interface SearchHistoryRepository {
 
     fun getSavedWords(): Flow<List<Word>>
 
+    suspend fun deleteWord(word: String)
+
 }
