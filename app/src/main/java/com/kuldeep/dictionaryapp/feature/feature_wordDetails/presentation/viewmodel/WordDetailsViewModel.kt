@@ -1,18 +1,25 @@
 package com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.viewmodel
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.domain.usecase.GetWordDetailsUseCase
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.event.WordUiEvent
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.state.WordUiState
+import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class WordDetailsViewModel @Inject constructor(
     private val getWordDetailsUseCase: GetWordDetailsUseCase,
-) {
+):ViewModel() {
     private val _uiState :MutableStateFlow<WordUiState> = MutableStateFlow(WordUiState())
     val uiState: StateFlow<WordUiState> = _uiState.asStateFlow()
 
@@ -20,24 +27,20 @@ class WordDetailsViewModel @Inject constructor(
 
     fun onEvent(event: WordUiEvent) {
         when (event) {
-            is WordUiEvent.LoadInitialWord -> loadWord()
+            is WordUiEvent.Idle -> Unit
             is WordUiEvent.SearchWord -> searchWord(event.word)
-            is WordUiEvent.Retry -> retryLoading()
             is WordUiEvent.ShowErrorMessage -> showError(event.message)
         }
     }
 
-
-    private fun loadWord() {
-        // Load the word data and update _uiState
-    }
-
-    private fun searchWord(query: String) {
-        // Perform search and update _uiState
-    }
-
-    private fun retryLoading() {
-
+    private fun searchWord(word: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            getWordDetailsUseCase(word).onSuccess {
+               data?.apply {
+                   _uiState.value = _uiState.value.copy(meanings = meanings)
+               }
+            }
+        }
     }
 
     private fun showError(message: String) {
