@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.local.room.entity.WordEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class WordDAO {
@@ -13,7 +14,7 @@ abstract class WordDAO {
     abstract fun getWord(word: String): WordEntity?
 
     @Query("SELECT * FROM word_details")
-    abstract fun getAllWords(): List<WordEntity>
+    abstract fun getAllWords(): Flow<List<WordEntity>>
 
     @Query("DELETE FROM word_details WHERE word = :word")
     abstract fun deleteWord(word: String)

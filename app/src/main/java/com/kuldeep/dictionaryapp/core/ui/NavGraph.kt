@@ -13,7 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.kuldeep.dictionaryapp.feature.feature_search.presentation.screens.SearchWordScreen
-import com.kuldeep.dictionaryapp.feature.feature_searchHistory.presentation.screens.SearchWordScreen
+import com.kuldeep.dictionaryapp.feature.feature_searchHistory.presentation.screens.SearchHistoryScreen
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.screens.WordDetailsScreen
 
 
@@ -40,16 +40,20 @@ fun NavGraphBuilder.dictionaryNavGraph(
     navigation(startDestination = NavDestination.SearchWord.route, route = routes) {
         composable(NavDestination.SearchWord.route) {
             SearchWordScreen(
-                viewModel = hiltViewModel()){word->
+                viewModel = hiltViewModel()
+            ) { word ->
                 val route = NavDestination.WordDetails.route.replace("{word}", word)
                 navController.navigate(route)
             }
         }
 
         composable(NavDestination.SearchHistory.route) {
-            SearchWordScreen(
-                viewModel = hiltViewModel(),
-            )
+            SearchHistoryScreen(
+                viewModel = hiltViewModel()
+            ) { word ->
+                val route = NavDestination.WordDetails.route.replace("{word}", word)
+                navController.navigate(route)
+            }
         }
 
         composable(
