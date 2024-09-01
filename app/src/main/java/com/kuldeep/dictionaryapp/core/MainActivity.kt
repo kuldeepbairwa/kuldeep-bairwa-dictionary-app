@@ -39,7 +39,6 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val destinations = listOf(
                     NavDestination.SearchWord,
-                    NavDestination.WordDetails,
                     NavDestination.SearchHistory
             )
 
@@ -86,8 +85,10 @@ class MainActivity : ComponentActivity() {
                                         }
                                     },
                                     colors = NavigationBarItemDefaults.colors(
-                                        selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                                        selectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        unselectedIconColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                        unselectedTextColor = MaterialTheme.colorScheme.surfaceContainerLow,
                                         indicatorColor = Color.Transparent
                                     )
                                 )
