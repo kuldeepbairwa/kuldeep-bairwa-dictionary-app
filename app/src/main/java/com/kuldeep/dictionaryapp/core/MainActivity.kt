@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kuldeep.dictionaryapp.core.ui.NavDestination
 import com.kuldeep.dictionaryapp.core.ui.routes
@@ -35,11 +36,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
             val navController = rememberNavController()
             val destinations = listOf(
-                    NavDestination.SearchWord,
-                    NavDestination.SearchHistory
+                NavDestination.SearchWord,
+                NavDestination.SearchHistory
             )
 
             var selectedIndex by remember { mutableIntStateOf(0) }
@@ -54,44 +54,49 @@ class MainActivity : ComponentActivity() {
                                 dictionaryNavGraph(navController)
                             }
                         }
-
                     },
                     bottomBar = {
+                        // Get the current route
+                        val navBackStackEntry = navController.currentBackStackEntryAsState()
+                        val currentRoute = navBackStackEntry.value?.destination?.route
 
-                        NavigationBar(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer
-                        ) {
-                            destinations.forEachIndexed { index, screen ->
-                                NavigationBarItem(
-                                    icon = {
-                                        Icon(imageVector = screen.icon, contentDescription = null)
-                                    },
-                                    label = { Text(screen.title) },
-                                    selected = index == selectedIndex,
-                                    onClick = {
-                                        selectedIndex = index
-                                        navController.navigate(screen.route) {
-                                            // Pop up to the start destination of the graph to
-                                            // avoid building up a large stack of destinations
-                                            // on the back stack as users select items
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
+                        // Conditionally display Bottom Navigation Bar
+                        if (currentRoute == NavDestination.SearchWord.route || currentRoute == NavDestination.SearchHistory.route) {
+                            NavigationBar(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer
+                            ) {
+                                destinations.forEachIndexed { index, screen ->
+                                    NavigationBarItem(
+                                        icon = {
+                                            Icon(imageVector = screen.icon, contentDescription = null)
+                                        },
+                                        label = { Text(screen.title) },
+                                        selected = index == selectedIndex,
+                                        onClick = {
+                                            selectedIndex = index
+                                            navController.navigate(screen.route) {
+                                                // Pop up to the start destination of the graph to
+                                                // avoid building up a large stack of destinations
+                                                // on the back stack as users select items
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
+                                                }
+                                                // Avoid multiple copies of the same destination when
+                                                // reselecting the same item
+                                                launchSingleTop = true
+                                                // Restore state when reselecting a previously selected item
+                                                restoreState = true
                                             }
-                                            // Avoid multiple copies of the same destination when
-                                            // reselecting the same item
-                                            launchSingleTop = true
-                                            // Restore state when reselecting a previously selected item
-                                            restoreState = true
-                                        }
-                                    },
-                                    colors = NavigationBarItemDefaults.colors(
-                                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                        unselectedIconColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                                        unselectedTextColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                                        indicatorColor = Color.Transparent
+                                        },
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                            selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                            unselectedIconColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                            unselectedTextColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                            indicatorColor = Color.Transparent
+                                        )
                                     )
-                                )
+                                }
                             }
                         }
                     },
@@ -99,5 +104,6 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+
     }
 }

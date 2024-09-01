@@ -28,27 +28,28 @@ import com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.viewmo
 @Composable
 fun WordDetailsScreen(
     viewModel: WordDetailsViewModel,
-    navController: NavController,
     queryWord: String?
 ) {
     // Collect the UI state from the ViewModel
-    val state by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val isLoading = uiState.isLoading
+    val word = uiState.word
 
     LaunchedEffect(queryWord) {
-        if (!state.isLoading && state.word == null && queryWord != null) {
+        if (!isLoading && word == null && queryWord != null) {
             viewModel.onEvent(WordUiEvent.SearchWord(queryWord))
         }
     }
     // Handle different UI states
     when {
-        state.isLoading -> {
+        uiState.isLoading -> {
             // Show a loading indicator
             Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator(modifier = Modifier.size(60.dp))
             }
         }
 
-        state.error != null -> {
+        uiState.error != null -> {
             // Show an error message
             Column(
                 modifier = Modifier
@@ -57,8 +58,10 @@ fun WordDetailsScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Error: ${state.error}", color = MaterialTheme.colorScheme.error)
-                Button(onClick = { /* Handle retry or go back */ }) {
+                Text(text = "${uiState.error}", color = MaterialTheme.colorScheme.error)
+                Button(onClick = {
+                    queryWord?.let { viewModel.onEvent(WordUiEvent.SearchWord(queryWord)) }
+                }) {
                     Text(text = "Retry")
                 }
             }
@@ -66,7 +69,7 @@ fun WordDetailsScreen(
 
         else -> {
             // Show word details
-            state.word?.let { word ->
+            uiState.word?.let { word ->
                 WordDetailsContent(word)
             } ?: run {
                 Text(

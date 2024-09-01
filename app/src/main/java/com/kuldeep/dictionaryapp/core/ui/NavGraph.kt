@@ -64,7 +64,6 @@ fun NavGraphBuilder.dictionaryNavGraph(
             val word = backStackEntry.arguments?.getString("word")
             WordDetailsScreen(
                 viewModel = hiltViewModel(),
-                navController = navController,
                 word
             )
         }
