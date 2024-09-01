@@ -19,3 +19,10 @@ fun WordDTO.toWordEntity(): WordEntity {
         meanings = Meanings(meanings)
     )
 }
+
+fun WordDTO.toWord(): Word {
+    return Word(
+        word = word,
+        meanings = meanings.map { it.toMeaning() }
+    )
+}

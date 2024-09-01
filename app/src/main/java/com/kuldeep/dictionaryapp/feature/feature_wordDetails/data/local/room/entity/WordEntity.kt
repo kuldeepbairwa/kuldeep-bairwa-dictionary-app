@@ -5,10 +5,12 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.model.MeaningDTO
+import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.model.WordDTO
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.model.toMeaning
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.domain.model.Meaning
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.domain.model.Word
 import kotlinx.serialization.Serializable
+import java.util.ArrayList
 
 @Serializable
 @Entity(tableName = "word_details")
@@ -29,4 +31,11 @@ fun WordEntity.toWord(): Word {
         word = word,
         meanings = meanings.meanings.map { it.toMeaning() }
     )
+}
+fun WordEntity.toDTO(): WordDTO {
+    return WordDTO(
+        word = word,
+        meanings = ArrayList(meanings.meanings)
+    )
+
 }

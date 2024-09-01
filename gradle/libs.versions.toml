@@ -54,6 +54,7 @@ androidx-hilt-compose-navigation = { group = "androidx.hilt", name = "hilt-navig
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 
 skydoves-sandwich = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "skydoves-sandwich" }
+skydoves-sandwich-retorfit-serialization = { group = "com.github.skydoves", name = "sandwich-retrofit-serialization", version.ref = "skydoves-sandwich" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 retrofit-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
