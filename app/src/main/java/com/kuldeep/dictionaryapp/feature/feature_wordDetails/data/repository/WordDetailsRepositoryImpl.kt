@@ -1,5 +1,6 @@
 package com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.repository
 
+import android.util.Log
 import com.kuldeep.dictionaryapp.core.network.DictionaryErrorResponse
 import com.kuldeep.dictionaryapp.core.network.ErrorResponseMapper
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.local.room.dao.WordDAO
@@ -32,22 +33,31 @@ class WordDetailsRepositoryImpl @Inject constructor(
     private val apiService: DictionaryApiService,
     private val wordDAO: WordDAO
 ) : WordsDetailsRepository {
-    override suspend fun getWordDetails(word: String): ApiResponse<Word?> {
-        val cachedWord = wordDAO.getWord(word)
+    override suspend fun getWordDetails(wordQuery: String): ApiResponse<Word?> {
+        val cachedWord = wordDAO.getWord(wordQuery)
 
         if (cachedWord != null) return (ApiResponse.Success(data = cachedWord.toWord()))
+        else{
+            val apiResponse = apiService.fetchWordDetails(wordQuery)
 
-        val apiResponse = apiService.fetchWordDetails()
+            return when(apiResponse){
+                is ApiResponse.Failure.Error -> {
+                    Log.d("STEPPER Er",apiResponse.payload.toString())
+                    apiResponse
 
-        return when(apiResponse){
-            is ApiResponse.Failure.Error -> {
-                apiResponse
-            }
-            is  ApiResponse.Failure.Exception-> {
-                apiResponse
-            }
-            is ApiResponse.Success -> {
-                ApiResponse.Success(apiResponse.data.firstOrNull()?.toWord())
+                }
+                is  ApiResponse.Failure.Exception-> {
+                    Log.d("STEPPER Ex",apiResponse.message.toString())
+                    apiResponse
+                }
+                is ApiResponse.Success -> {
+                    Log.d("STEPPER S",apiResponse.data.toString())
+                    val word = apiResponse.data.firstOrNull()
+                    if (word != null) {
+                        saveWord(word)
+                    }
+                    ApiResponse.Success(word?.toWord())
+                }
             }
         }
     }

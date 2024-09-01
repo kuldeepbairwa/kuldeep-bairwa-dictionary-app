@@ -2,6 +2,7 @@ package com.kuldeep.dictionaryapp.core.network
 
 import com.kuldeep.dictionaryapp.BuildConfig
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.remote.DictionaryApiService
+import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,14 +21,17 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providesRetrofitBuilder(): Retrofit.Builder {
+    fun provideJson(): Json = Json {
+        ignoreUnknownKeys = true
+    }
+
+    @Singleton
+    @Provides
+    fun providesRetrofitBuilder(json: Json,): Retrofit.Builder {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(
-                Json.asConverterFactory(
-                    "application/json; charset=UTF8".toMediaType()
-                )
-            )
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
     }
 
     @Singleton
