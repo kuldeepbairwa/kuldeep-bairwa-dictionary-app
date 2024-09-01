@@ -37,21 +37,20 @@ class WordDetailsRepositoryImpl @Inject constructor(
         val cachedWord = wordDAO.getWord(wordQuery)
 
         if (cachedWord != null) return (ApiResponse.Success(data = cachedWord.toWord()))
-        else{
+        else {
             val apiResponse = apiService.fetchWordDetails(wordQuery)
 
-            return when(apiResponse){
+            return when (apiResponse) {
                 is ApiResponse.Failure.Error -> {
-                    Log.d("STEPPER Er",apiResponse.payload.toString())
                     apiResponse
 
                 }
-                is  ApiResponse.Failure.Exception-> {
-                    Log.d("STEPPER Ex",apiResponse.message.toString())
+
+                is ApiResponse.Failure.Exception -> {
                     apiResponse
                 }
+
                 is ApiResponse.Success -> {
-                    Log.d("STEPPER S",apiResponse.data.toString())
                     val word = apiResponse.data.firstOrNull()
                     if (word != null) {
                         saveWord(word)

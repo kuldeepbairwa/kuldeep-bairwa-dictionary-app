@@ -24,7 +24,11 @@ import com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.state.
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.viewmodel.WordDetailsViewModel
 
 @Composable
-fun WordDetailsScreen(viewModel: WordDetailsViewModel, navController: NavController, queryWord: String?) {
+fun WordDetailsScreen(
+    viewModel: WordDetailsViewModel,
+    navController: NavController,
+    queryWord: String?
+) {
     // Collect the UI state from the ViewModel
     val state by viewModel.uiState.collectAsState()
 
@@ -39,6 +43,7 @@ fun WordDetailsScreen(viewModel: WordDetailsViewModel, navController: NavControl
             // Show a loading indicator
             CircularProgressIndicator(modifier = Modifier.fillMaxSize())
         }
+
         state.error != null -> {
             // Show an error message
             Column(
@@ -54,12 +59,17 @@ fun WordDetailsScreen(viewModel: WordDetailsViewModel, navController: NavControl
                 }
             }
         }
+
         else -> {
             // Show word details
             state.word?.let { word ->
                 WordDetailsContent(word)
             } ?: run {
-                Text(text = "Word not found.", modifier = Modifier.fillMaxSize(), textAlign = TextAlign.Center)
+                Text(
+                    text = "Word not found.",
+                    modifier = Modifier.fillMaxSize(),
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }

@@ -24,7 +24,8 @@ class WordDetailsViewModel @Inject constructor(
     private val getWordDetailsUseCase: GetWordDetailsUseCase
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<WordUiState> = MutableStateFlow(WordUiState(isLoading = true))
+    private val _uiState: MutableStateFlow<WordUiState> =
+        MutableStateFlow(WordUiState(isLoading = true))
     val uiState: StateFlow<WordUiState> = _uiState.asStateFlow()
 
     init {
