@@ -6,6 +6,6 @@ import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.flow.Flow
 
 interface WordsDetailsRepository {
-    suspend fun getWordDetails(word: String): ApiResponse<Word?>
+    suspend fun getWordDetails(wordQuery: String): ApiResponse<Word?>
     suspend fun saveWord(word: WordDTO)
 }

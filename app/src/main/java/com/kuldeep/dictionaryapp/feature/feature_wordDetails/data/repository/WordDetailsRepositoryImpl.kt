@@ -1,10 +1,8 @@
 package com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.repository
 
-import android.util.Log
-import com.kuldeep.dictionaryapp.core.network.DictionaryErrorResponse
-import com.kuldeep.dictionaryapp.core.network.ErrorResponseMapper
+import com.kuldeep.dictionaryapp.core.network.ErrorEnvelopeMapper
+import com.kuldeep.dictionaryapp.core.network.ErrorEnvelopeMapper.map
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.local.room.dao.WordDAO
-import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.local.room.entity.toDTO
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.local.room.entity.toWord
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.model.WordDTO
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.model.toWord
@@ -13,20 +11,11 @@ import com.kuldeep.dictionaryapp.feature.feature_wordDetails.data.remote.Diction
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.domain.model.Word
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.domain.repository.WordsDetailsRepository
 import com.skydoves.sandwich.ApiResponse
-import com.skydoves.sandwich.getOrNull
 import com.skydoves.sandwich.map
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
-import com.skydoves.sandwich.onSuccess
-import com.skydoves.sandwich.retrofit.serialization.onErrorDeserialize
-import com.skydoves.sandwich.suspendOnError
-import com.skydoves.sandwich.suspendOnException
-import com.skydoves.sandwich.suspendOnFailure
-import com.skydoves.sandwich.suspendOnSuccess
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
+import com.skydoves.sandwich.retrofit.apiMessage
+import com.skydoves.sandwich.retrofit.statusCode
 import javax.inject.Inject
 
 class WordDetailsRepositoryImpl @Inject constructor(
@@ -43,7 +32,6 @@ class WordDetailsRepositoryImpl @Inject constructor(
             return when (apiResponse) {
                 is ApiResponse.Failure.Error -> {
                     apiResponse
-
                 }
 
                 is ApiResponse.Failure.Exception -> {

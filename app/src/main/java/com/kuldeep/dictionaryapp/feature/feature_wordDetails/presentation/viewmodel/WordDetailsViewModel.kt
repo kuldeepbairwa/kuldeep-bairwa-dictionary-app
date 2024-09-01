@@ -3,12 +3,15 @@ package com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.viewm
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kuldeep.dictionaryapp.core.network.ErrorEnvelope
+import com.kuldeep.dictionaryapp.core.network.SKAA
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.domain.usecase.GetWordDetailsUseCase
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.event.WordUiEvent
 import com.kuldeep.dictionaryapp.feature.feature_wordDetails.presentation.state.WordUiState
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onSuccess
+import com.skydoves.sandwich.retrofit.serialization.deserializeErrorBody
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -50,7 +53,8 @@ class WordDetailsViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(word = this, isLoading = false)
                 }
             }.onError {
-                showError(this.message())
+                val error = this.deserializeErrorBody<String,SKAA>()
+                error?.message?.let { showError(it) }
             }
         }
     }
